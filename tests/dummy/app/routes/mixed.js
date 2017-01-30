@@ -3,6 +3,10 @@ import Ember from 'ember';
 function getRandomInt() {
   return Math.floor(Math.random() * (251) + 75);
 }
+
+const DEFAULT_HEIGHT = 200;
+const DEFAULT_WIDTH = 200;
+
 export default Ember.Route.extend({
   model: function() {
     var items = [];
@@ -11,8 +15,10 @@ export default Ember.Route.extend({
       var height = getRandomInt();
       items.push({
         name: 'Item ' + (i + 1) + '(' + width + 'x' + height + ')',
-        width: width,
-        height: height
+        width: DEFAULT_WIDTH,
+        height: DEFAULT_HEIGHT,
+        actualWidth: width,
+        actualHeight: height
       });
     }
 

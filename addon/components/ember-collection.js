@@ -2,7 +2,7 @@ import Ember from 'ember';
 import layout from './ember-collection/template';
 import identity from '../utils/identity';
 import needsRevalidate from '../utils/needs-revalidate';
-const { get, set } = Ember;
+const { get, run, set, setProperties } = Ember;
 
 class Cell {
   constructor(key, item, index, style) {
@@ -229,6 +229,14 @@ export default Ember.Component.extend({
         set(this, '_clientWidth', clientWidth);
         set(this, '_clientHeight', clientHeight);
         this._needsRevalidate();
+      }
+    },
+    itemSizeChange(index, width, height) {
+      var item = this._items[index];
+      if (item && (item.width !== width || item.height !== height)) {
+        setProperties(item, { width, height });
+        this._cellLayout.bin.flush(index);
+        run.once(this, '_needsRevalidate');
       }
     }
   }
